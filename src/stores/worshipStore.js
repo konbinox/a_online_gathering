@@ -1,64 +1,6 @@
 import { defineStore } from 'pinia'
 import { FlowEngine } from '../engine/FlowEngine'
-
-// 内嵌默认数据（完全不依赖 fetch）
-const DEFAULT_FLOW = {
-  id: "standard",
-  name: "标准主日流程",
-  modules: [
-    { type: "welcome" },
-    { type: "worship" },
-    { type: "message" },
-    { type: "bible" },
-    { type: "announcement" },
-    { type: "giving" },
-    { type: "prayer" }
-  ]
-}
-
-const DEFAULT_WEEKLY = {
-  date: new Date().toISOString().split('T')[0],
-  flowId: "standard",
-  content: {
-    welcome: {
-      host: "欢迎你",
-      leader: "主持同工",
-      instruction: "欢迎参加主日崇拜",
-      notice: ["请将名字改为真实姓名", "聚会期间请保持安静"]
-    },
-    worship: {
-      leader: "敬拜同工",
-      instruction: "带领会众敬拜",
-      songs: []
-    },
-    message: {
-      title: "神的恩典够你用",
-      speaker: "牧师",
-      leader: "牧师",
-      instruction: "分享神的话语",
-      outline: ["恩典的意义", "恩典的实践"]
-    },
-    bible: {
-      ref: "哥林多后书 12:9",
-      leader: "读经同工",
-      instruction: "请读经文"
-    },
-    announcement: {
-      leader: "报告同工",
-      instruction: "报告家事",
-      highlight: ["欢迎新朋友", "下周圣餐主日"],
-      normal: ["周三祷告会", "周五小组聚会"]
-    },
-    giving: {
-      leader: "财务同工",
-      instruction: "奉献环节"
-    },
-    prayer: {
-      leader: "祷告同工",
-      instruction: "带领祷告"
-    }
-  }
-}
+import { DEFAULT_FLOW, DEFAULT_WEEKLY } from '../data/defaultData'
 
 export const useWorshipStore = defineStore('worship', {
   state: () => ({
@@ -68,19 +10,25 @@ export const useWorshipStore = defineStore('worship', {
     timerSeconds: 0,
     timerRunning: false,
     timerInterval: null,
-    songPlayer: { currentIndex: 0, isPlaying: false }
+    songPlayer: { currentIndex: 0, isPlaying: false },
+    lyricsData: {}
   }),
 
   actions: {
     async loadTodayData() {
       try {
-        // 直接使用内嵌数据，不 fetch
+        // 直接使用内嵌数据
         const flow = DEFAULT_FLOW
         const content = DEFAULT_WEEKLY.content
         
         this.flowEngine = new FlowEngine(flow, content)
         this.currentData = DEFAULT_WEEKLY
         this.currentModule = this.flowEngine.current()
+        
+        // 存储歌词数据
+        if (content.worship?.lyrics) {
+          this.lyricsData = content.worship.lyrics
+        }
 
         // 恢复进度
         const saved = localStorage.getItem('currentModuleIndex')
@@ -91,12 +39,13 @@ export const useWorshipStore = defineStore('worship', {
         }
 
         this.initSyncListener()
-        console.log('数据加载成功（内嵌模式）')
+        console.log('✅ 内嵌数据加载成功')
       } catch (error) {
         console.error('加载失败:', error)
       }
     },
 
+    // ... 其他方法保持不变（nextModule, prevModule, jumpToModule, 计时器等）
     initSyncListener() {
       window.addEventListener('storage', (e) => {
         if (e.key === 'currentModuleIndex' && e.newValue) {
@@ -174,6 +123,13 @@ export const useWorshipStore = defineStore('worship', {
     
     prevSong() {
       if (this.songPlayer.currentIndex > 0) this.songPlayer.currentIndex--
+    },
+
+    getCurrentLyrics() {
+      const songs = this.currentModule?.data?.songs
+      if (!songs?.length) return []
+      const currentSong = songs[this.songPlayer.currentIndex]
+      return this.lyricsData[currentSong] || []
     }
   },
 
@@ -194,7 +150,7 @@ export const useWorshipStore = defineStore('worship', {
     getCurrentSong: (state) => {
       const songs = state.currentModule?.data?.songs
       if (!songs?.length) return null
-      return { title: songs[state.songPlayer.currentIndex] || '诗歌' }
+      return { title: songs[state.songPlayer.currentIndex] }
     }
   }
 })
