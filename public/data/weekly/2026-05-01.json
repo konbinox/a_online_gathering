@@ -1,0 +1,13 @@
+{
+  "date": "2026-05-01",
+  "flowId": "standard",
+  "content": {
+    "welcome": { "host": "Elisa", "leader": "Elisa", "instruction": "7:30准时开始", "notice": ["请改名字加组号", "敬拜时请静音"] },
+    "worship": { "leader": "Sheri", "instruction": "带领敬拜，10分钟", "songs": ["song_001", "song_002"] },
+    "message": { "title": "跨越的人生", "speaker": "刘彤牧师", "leader": "刘牧师", "instruction": "45分钟信息", "outline": ["信心的跨越", "行动的跨越"] },
+    "bible": { "ref": "马可福音 2:27", "leader": "读经同工", "instruction": "大声朗读经文" },
+    "announcement": { "leader": "行政同工", "instruction": "2分钟完成", "highlight": ["🔥 本周日下午2:00洗礼典礼"], "normal": ["周三祷告会 晚上7:30"] },
+    "giving": { "leader": "财务同工", "instruction": "3分钟" },
+    "prayer": { "leader": "祷告同工", "instruction": "带领会众开麦祷告" }
+  }
+}
