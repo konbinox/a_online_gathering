@@ -1,6 +1,0 @@
-{
-  "methods": [
-    { "name": "Zelle", "value": "church@example.com" },
-    { "name": "PayPal", "url": "https://paypal.me/church" }
-  ]
-}
