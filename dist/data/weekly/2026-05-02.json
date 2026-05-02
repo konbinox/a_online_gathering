@@ -1,0 +1,44 @@
+{
+  "date": "2026-05-02",
+  "flowId": "standard",
+  "content": {
+    "welcome": {
+      "host": "Elisa",
+      "leader": "Elisa",
+      "instruction": "7:30 准时开始，控制整体流程",
+      "notice": ["请改名字加组号", "敬拜时请静音", "尽量打开视频"]
+    },
+    "worship": {
+      "leader": "Sheri",
+      "instruction": "带领大家进入敬拜，控制在10分钟，让会众开口唱",
+      "songs": ["song_001", "song_002"]
+    },
+    "message": {
+      "title": "跨越的人生",
+      "speaker": "刘彤牧师",
+      "leader": "刘牧师",
+      "instruction": "45分钟信息，注意时间控制",
+      "outline": ["信心的跨越", "行动的跨越", "关系的跨越"]
+    },
+    "bible": {
+      "ref": "马可福音 2:27",
+      "leader": "读经同工",
+      "instruction": "请大声清晰朗读经文",
+      "reflection": "安息日真正的意义是什么？"
+    },
+    "announcement": {
+      "leader": "行政同工",
+      "instruction": "2分钟内完成，重点突出洗礼",
+      "highlight": ["🔥 本周日下午2:00 洗礼典礼", "🔥 下周六小组长培训"],
+      "normal": ["周三祷告会 晚上7:30", "奉献可扫码或转账"]
+    },
+    "giving": {
+      "leader": "财务同工",
+      "instruction": "3分钟，鼓励奉献"
+    },
+    "prayer": {
+      "leader": "祷告同工",
+      "instruction": "带领会众开麦祷告"
+    }
+  }
+}
